@@ -11,7 +11,7 @@ if($conn->query($query)===TRUE)
 {?>
   <script>
   alert("Book Deleted Successfully");
-  window.location.href="book_list1.php";
+  window.location.href="index.php";
   </script>
 <?php
 }

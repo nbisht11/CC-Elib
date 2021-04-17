@@ -9,7 +9,7 @@ if(!isset($_POST['submit']))
 }
 ?>
 <?php
-$errors = array('name'=>'','author'=>'','cover'=>'','description'=>'','file'=>'');
+$errors = array('name'=>'','author'=>'','cover'=>'','description'=>'');
 $error=0;
 if(isset($_POST['submit']))
 {
@@ -17,12 +17,10 @@ if(isset($_POST['submit']))
   $query="SELECT * FROM `book_details` WHERE `book_details`.`Book_ID` = $id;";
   $result=$conn->query($query);
   $book=$result->fetch_assoc();
-  $ISBN=$_POST['ISBN'];
   $name=$_POST['name'];
   $author=$_POST['author'];
   $description=$_POST['description'];
   $old_cover=$_POST['old_cover'];
-  $book_link=$_POST['Book_File'];
   if(empty($name))
   {
     $errors['name'] = 'Book Name is required';
@@ -34,7 +32,7 @@ if(isset($_POST['submit']))
     $errors['author'] = "Author's Name is required";
     $error=1;
   }
-  if(strlen($description)>250)
+  if(strlen($description)>500)
   {
     $errors['description']= 'Book Description should be less than 250 characters';
     $error=1;
@@ -53,15 +51,15 @@ if(isset($_POST['submit']))
       $cover_temp_name = $_FILES['B_Cover']['tmp_name'];
       $cover_path_filename_ext = $cover_dir.$covername.".".$coverext;
       $cover_host_path="/CC-Elib/files/Book_Covers/".$covername.".".$coverext;
-      $query="UPDATE `book_details` SET `ISBN` = '$ISBN', `Book_Name` = '$name', `Author_Name` = '$author',
-      `Book_Description` = '$description', `Book_File` = '$book_link', `Book_Cover` = '$cover_host_path'
+      $query="UPDATE `book_details` SET `Book_Name` = '$name', `Author_Name` = '$author',
+      `Book_Description` = '$description', `Book_Cover` = '$cover_host_path'
       WHERE `book_details`.`Book_ID` = $id;";
       move_uploaded_file($cover_temp_name,$cover_path_filename_ext);
     }
     else
     {
-      $query="UPDATE `book_details` SET `ISBN` = '$ISBN', `Book_Name` = '$name', `Author_Name` = '$author',
-      `Book_File` = '$book_link', `Book_Description` = '$description' WHERE `book_details`.`Book_ID` = $id;";
+      $query="UPDATE `book_details` SET `Book_Name` = '$name', `Author_Name` = '$author',
+      `Book_Description` = '$description' WHERE `book_details`.`Book_ID` = $id;";
     }
     if($conn->query($query)===TRUE)
     {?>
@@ -107,15 +105,13 @@ if(isset($_POST['submit']))
 
 </head>
 <body>
+  <a href="book_detail.php?id=<?php echo($book['Book_ID'])?>"> <button type="button"  class="btn btn-success">
+    <img src="files/images/back.png"; title="Back to BookShelf", height="30px" width="30px"></button></a>
   <div class="container">
     <div class="row-md-6 offset-3">
       <div class="col-md-8" id=form>
         <center> <b style="font-size: 55px; font-family: Agency FB; font-weight:700;">Edit Book Information</b></center>
   <form action="edit_book.php" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-    <label for="ISBN">Book ISBN:</label>
-    <input class="form-control" type="text" name="ISBN" value="<?php echo($book['ISBN'])?>">
-    </div>
     <div class="form-group">
     <label for="Book_Name">Book Name*:</label>
     <input class="form-control" type="text" name="name" value="<?php echo($book['Book_Name'])?>" required>
@@ -129,7 +125,7 @@ if(isset($_POST['submit']))
     <div class="form-group">
     <label for="Book_Description">Book Description:</label>
     <textarea class="form-control" rows="8"
-    name="description" maxlength="250"><?php echo($book['Book_Description'])?></textarea>
+    name="description" maxlength="500"><?php echo($book['Book_Description'])?></textarea>
     <div><?php echo $errors['description']; ?></div>
     </div>
     <img src="<?php echo($book['Book_Cover'])?>" height="150px", width=auto>
@@ -141,10 +137,6 @@ if(isset($_POST['submit']))
     <div style="display: none;">
       <input type="text" name="old_cover" value="<?php echo($book['Book_Cover'])?>">
       <input type="text" name="bid" value="<?php echo($book['Book_ID'])?>">
-    </div>
-    <div class="form-group">
-    <label for="Book_File">Book Link:</label>
-    <input class="form-control" type="text" name="Book_File" value="<?php echo($book['Book_File'])?>">
     </div>
     <input type="submit" name="submit" value="Update">
     <a href="book_detail.php/?id=<?php echo($book['Book_ID'])?>"><input type="button" value="Cancel"></a>

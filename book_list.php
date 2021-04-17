@@ -6,13 +6,9 @@ integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLP
   {
     background-image: url(/CC-Elib/files/images/bg-blur.jpg);
   }
-  body
-  {
-    background-image: url(/CC-Elib/files/images/bg-blur.jpg);
-  }
 </style>
 <?php
-$sql="SELECT * from book_details";
+$sql="SELECT * FROM `book_details` ORDER BY created_at DESC;";
 $result = $conn->query($sql);
 ?>
 <div class="container">
@@ -20,7 +16,7 @@ $result = $conn->query($sql);
     <?php
     while($book=$result->fetch_assoc())
     {?>
-      <div class="col" style="margin-bottom:20px">
+      <div class="col s12 m4" style="margin-bottom:20px">
         <div class="card" style="width: 250px; height: 500px">
             <img class="card-img-top" src="<?php echo $book['Book_Cover']?>" width=240px height="360px" >
             <div class='card-body'>

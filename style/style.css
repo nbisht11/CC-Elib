@@ -2,7 +2,15 @@ h1 {
   color: black;
   text-align: center;
 }
-
+.header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: lightblue;
+  color: white;
+  text-align: center;
+}
 p {
   color: black;
   text-align: left;
