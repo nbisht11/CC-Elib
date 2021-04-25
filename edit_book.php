@@ -1,5 +1,6 @@
 <?php
 include('db_config.php');
+include('links.php');
 if(!isset($_POST['submit']))
 {
   $id=($_GET['id']);
@@ -86,8 +87,6 @@ if(isset($_POST['submit']))
 <html>
 <head>
   <title>Edit Book Information</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <style type="text/css">
 
   #form
@@ -105,44 +104,44 @@ if(isset($_POST['submit']))
 
 </head>
 <body>
+<?php include('header.php')?>
   <a href="book_detail.php?id=<?php echo($book['Book_ID'])?>"> <button type="button"  class="btn btn-success">
     <img src="files/images/back.png"; title="Back to BookShelf", height="30px" width="30px"></button></a>
   <div class="container">
-    <div class="row-md-6 offset-3">
-      <div class="col-md-8" id=form>
-        <center> <b style="font-size: 55px; font-family: Agency FB; font-weight:700;">Edit Book Information</b></center>
-  <form action="edit_book.php" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-    <label for="Book_Name">Book Name*:</label>
-    <input class="form-control" type="text" name="name" value="<?php echo($book['Book_Name'])?>" required>
-    <div><?php echo $errors['name']; ?></div>
+    <div class="col-sd-4 col-sm-12 align-self-center" id=form>
+      <center> <b style="font-size: 55px; font-family: Agency FB; font-weight:700;">Edit Book Information</b></center>
+      <form action="edit_book.php" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="Book_Name">Book Name*:</label>
+        <input class="form-control" type="text" name="name" value="<?php echo($book['Book_Name'])?>" required>
+        <div><?php echo $errors['name']; ?></div>
+      </div>
+      <div class="form-group">
+        <label for="Author_Name">Author Name*:</label>
+        <input class="form-control" type="text" name="author" value="<?php echo($book['Author_Name'])?>" required>
+        <div><?php echo $errors['author']; ?></div>
+      </div>
+      <div class="form-group">
+        <label for="Book_Description">Book Description:</label>
+        <textarea class="form-control" rows="8"
+        name="description" maxlength="500"><?php echo($book['Book_Description'])?></textarea>
+        <div><?php echo $errors['description']; ?></div>
+      </div>
+      <img src="<?php echo($book['Book_Cover'])?>" height="150px", width=auto>
+      <div class="form-group">
+        <label for="Book_Cover">Book Cover*:</label>
+        <input class="form-control" type="file" name="B_Cover" accept=".jpeg, .png, .jpg">
+        <div><?php echo $errors['cover']; ?></div>
+      </div>
+      <div style="display: none;">
+        <input type="text" name="old_cover" value="<?php echo($book['Book_Cover'])?>">
+        <input type="text" name="bid" value="<?php echo($book['Book_ID'])?>">
+      </div>
+      <input type="submit" name="submit" value="Update">
+      <a href="book_detail.php?id=<?php echo($book['Book_ID'])?>"><input type="button" value="Cancel"></a>
+      </form>
     </div>
-    <div class="form-group">
-    <label for="Author_Name">Author Name*:</label>
-    <input class="form-control" type="text" name="author" value="<?php echo($book['Author_Name'])?>" required>
-    <div><?php echo $errors['author']; ?></div>
-    </div>
-    <div class="form-group">
-    <label for="Book_Description">Book Description:</label>
-    <textarea class="form-control" rows="8"
-    name="description" maxlength="500"><?php echo($book['Book_Description'])?></textarea>
-    <div><?php echo $errors['description']; ?></div>
-    </div>
-    <img src="<?php echo($book['Book_Cover'])?>" height="150px", width=auto>
-    <div class="form-group">
-    <label for="Book_Cover">Book Cover*:</label>
-    <input class="form-control" type="file" name="B_Cover" accept=".jpeg, .png, .jpg">
-    <div><?php echo $errors['cover']; ?></div>
-    </div>
-    <div style="display: none;">
-      <input type="text" name="old_cover" value="<?php echo($book['Book_Cover'])?>">
-      <input type="text" name="bid" value="<?php echo($book['Book_ID'])?>">
-    </div>
-    <input type="submit" name="submit" value="Update">
-    <a href="book_detail.php/?id=<?php echo($book['Book_ID'])?>"><input type="button" value="Cancel"></a>
-  </form>
-</div>
-</div>
-</div>
+  </div>
+  <?php include('footer.php')?>
 </body>
 </html>

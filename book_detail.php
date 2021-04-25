@@ -1,5 +1,6 @@
 <?php
 include ('db_config.php');
+include('links.php');
 $id=($_GET['id']);
 $query="SELECT * FROM `book_details` WHERE `book_details`.`Book_ID` = $id;";
 $result=$conn->query($query);
@@ -15,11 +16,11 @@ $book=$result->fetch_assoc();
     background-image: url(/CC-Elib/files/images/bg-blur.jpg);
   }
   </style>
-
 </head>
+<?php include('header.php')?>
 <a href="index.php" target="_top"> <button type="button"  class="btn btn-success"><img src="files/images/back.png";
   title="Back to BookShelf" height="30px" width="30px"></button></a>
-<div class="card mb-3" style="background-color: grey; width: auto; height: auto; margin-left:10%;margin-right: 10%;margin-top:2%">
+<div class="card mb-3" style="background-color: grey; width: auto; height: auto; margin-left:10%; margin-right: 10%; margin-bottom:10%">
   <div class="row">
     <div class="col-md-4">
       <img class="card-img-left" src="<?php echo($book['Book_Cover'])?>"; width=100%; height=auto >
@@ -40,4 +41,5 @@ $book=$result->fetch_assoc();
     </div>
   </div>
 </div>
+<?php include('footer.php')?>
 </html>
