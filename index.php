@@ -14,6 +14,11 @@ $pages='';
 include('links.php'); 
 include('db_config.php');
 include('header.php');
+if(isset($_GET['msg']))
+{
+  $msg=$_GET['msg'];
+  include('show_alert.php');
+}
 $sql="SELECT COUNT(*) FROM `book_details`";
 $result = $conn->query($sql);
 $row = mysqli_fetch_array($result);

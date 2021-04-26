@@ -8,16 +8,13 @@ $path="C:/xampp/htdocs".$book['Book_Cover'];
 unlink($path);
 $query= "DELETE FROM `book_details` WHERE `book_details`.`Book_ID` = $id;";
 if($conn->query($query)===TRUE)
-{?>
-  <script>
-  alert("Book Deleted Successfully");
-  window.location.href="index.php";
-  </script>
-<?php
+{
+  header("Location: index.php?msg=Book Deleted Successfully");
+  exit();
 }
 else
-{?>
-  <script>alert("Error in code");</script>
-<?php
+{
+  header("Location: index.php?msg=Error in code");
+  exit();
 };
 ?>

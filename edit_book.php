@@ -18,10 +18,10 @@ if(isset($_POST['submit']))
   $query="SELECT * FROM `book_details` WHERE `book_details`.`Book_ID` = $id;";
   $result=$conn->query($query);
   $book=$result->fetch_assoc();
-  $name=$_POST['name'];
-  $author=$_POST['author'];
-  $description=$_POST['description'];
-  $old_cover=$_POST['old_cover'];
+  $name=mysqli_real_escape_string($conn,$_POST['name']);
+  $author=mysqli_real_escape_string($conn,$_POST['author']);
+  $description=mysqli_real_escape_string($conn,$_POST['description']);
+  $old_cover=mysqli_real_escape_string($conn,$_POST['old_cover']);
   if(empty($name))
   {
     $errors['name'] = 'Book Name is required';
@@ -35,7 +35,7 @@ if(isset($_POST['submit']))
   }
   if(strlen($description)>500)
   {
-    $errors['description']= 'Book Description should be less than 250 characters';
+    $errors['description']= 'Book Description should be less than 500 characters';
     $error=1;
   }
   if($error==0)
@@ -63,22 +63,15 @@ if(isset($_POST['submit']))
       `Book_Description` = '$description' WHERE `book_details`.`Book_ID` = $id;";
     }
     if($conn->query($query)===TRUE)
-    {?>
-      <script>
-      alert("Book Updated Successfully");
-      window.location.href = "book_detail.php?id=<?php echo($book['Book_ID'])?>";
-      </script>
-      <?php
+    {
+      header("Location:book_detail.php?id=".$id."&msg=Book Updated Successfully");
+      exit();
     }
     else
     {
       echo($query);
       echo($conn->error);
-      ?>
-      <script>
-      alert("Book Updation Failed");
-      </script>
-      <?php
+      header("Location:book_detail.php?id=".$id."&msg=Book Updatiom Failed");
     }
   }
 }
@@ -137,8 +130,8 @@ if(isset($_POST['submit']))
         <input type="text" name="old_cover" value="<?php echo($book['Book_Cover'])?>">
         <input type="text" name="bid" value="<?php echo($book['Book_ID'])?>">
       </div>
-      <input type="submit" name="submit" value="Update">
-      <a href="book_detail.php?id=<?php echo($book['Book_ID'])?>"><input type="button" value="Cancel"></a>
+      <input type="submit" class="btn btn-primary" name="submit" value="Update">
+      <a href="book_detail.php?id=<?php echo($book['Book_ID'])?>"><input type="button" class="btn btn-secondary" value="Cancel"></a>
       </form>
     </div>
   </div>

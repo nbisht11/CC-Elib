@@ -1,11 +1,12 @@
 <?php
-$errors = array('name'=>'','author'=>'','cover'=>'','description'=>'');
+include('db_config.php');
+$errors = array('name'=>'','author'=>'','cover'=>'','file'=>'','description'=>'');
 $error=0;
 if(isset($_POST['submit']))
 {
-  $name=htmlspecialchars($_POST['name']);
-  $author=htmlspecialchars($_POST['author']);
-  $description=htmlspecialchars($_POST['description']);
+  $name=mysqli_real_escape_string($conn,$_POST['name']);
+  $author=mysqli_real_escape_string($conn,$_POST['author']);
+  $description=mysqli_real_escape_string($conn,$_POST['description']);
   if(empty($name))
   {
     $errors['name'] = 'Book Name is required';
@@ -44,32 +45,36 @@ if(isset($_POST['submit']))
     if (file_exists($cover_path_filename_ext))
     {
       $errors['file']= "Sorry, Cover file already exists.";
+      header('Location: add_book.php?msg=Error in the form');
+      exit();
     }
     else
     {
       include('db_config.php');
       $query="INSERT INTO `book_details` (`Book_ID`, `Book_Name`, `Author_Name`, `Book_Description`, `Book_Cover`,`created_at`)
-      VALUES (NULL,$name,$author,$description,'$cover_host_path,$dt);";
+      VALUES (NULL,'$name','$author','$description','$cover_host_path','$dt');";
       echo($query);
       if($conn->query($query)===TRUE)
       {
         move_uploaded_file($cover_temp_name,$cover_path_filename_ext);
-        ?>
-        <script>
-          alert("Book Added Successfully");
-          window.location.href = "book_list.php";
-        </script>
-      <?php
+        $query="SELECT * FROM `book_details` WHERE Book_Name = '$name' AND Author_Name = '$author';";
+        echo($query);
+        $result=$conn->query($query);
+        $book = $result->fetch_assoc();
+        $id = $book['Book_ID'];
+        header('Location: book_detail.php?msg=Book Added Successfully&id='.$id);
+        exit();
       }
-      else
+      /*else
       {
         echo ($conn->error);
-      }
+      }*/
     }
   }
   else
   {
-    echo "Error in the form";
+    header('Location: add_book.php?msg=Error in the form');
+    exit();
   }
 }
 ?>
@@ -96,7 +101,13 @@ if(isset($_POST['submit']))
 
 </head>
 <body>
-<?php include('header.php')?>
+<?php include('header.php');
+if(isset($_GET['msg']))
+{
+  $msg=$_GET['msg'];
+  include('show_alert.php');
+}
+?>
   <div class="container">
     <div class="col-sd-4 md-4 align-self-center" id=form>
       <center> <b style="font-size: 55px; font-family: Agency FB; font-weight:700;">Add New Book</b></center>
@@ -120,10 +131,10 @@ if(isset($_POST['submit']))
       <div class="form-group">
       <label for="Book_Cover">Book Cover*:</label>
       <input class="form-control" type="file" name="B_Cover" accept=".jpeg, .png, .jpg" required>
-      <div><?php echo $errors['cover']; ?></div>
+      <div><?php echo $errors['file']; ?></div>
       </div>
-      <input type="submit" name="submit" value="Add Book">
-      <a href="index.php" target="_top"><input type="button" value="Cancel"></a>
+      <input type="submit" name="submit" class="btn btn-primary" value="Add Book">
+      <a href="index.php" target="_top"><input type="button" class="btn btn-secondary" value="Cancel"></a>
       </form>
   </div>
 </div>
