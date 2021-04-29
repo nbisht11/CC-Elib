@@ -1,5 +1,5 @@
 <?php
-include('db_config.php');
+include __DIR__ . '/config/db_config.php';;
 $id=($_GET['id']);
 $query="SELECT * FROM `book_details` WHERE `book_details`.`Book_ID` = $id;";
 $result=$conn->query($query);

@@ -7,7 +7,16 @@
   color: white;
   text-align: center;
 }
-
+#form
+{
+  background-color: #84e184;
+  height: 100%;
+  padding: 5px 40px 40px 40px;
+}
+body
+{
+  background-image: url(/CC-Elib/files/images/bg-blur.jpg);
+}
 .footer 
 {
   position: fixed;
@@ -17,4 +26,44 @@
   background-color: lightblue;
   color: white;
   text-align: center;
+}
+.pgn
+{
+  display:flex; 
+  justify-content:center;
+}
+.bbtn
+{
+  margin-left:-6%;
+}
+.adb
+{
+  position: fixed; 
+  bottom: 50px; 
+  right: 50px; 
+  border-radius: 50% !important; 
+  background-color:lightblue;
+}
+.cpd
+{
+  margin-bottom:20px;
+}
+.hdng
+{
+  font-size: 55px; 
+  font-weight:700;
+}
+.bg
+{
+  background-color: lightblue !important;
+}
+.bdtlcrd
+{
+  width: auto; 
+  height: auto; 
+  margin-top:10% !important;
+  margin-left:10%; 
+  margin-right: 10%; 
+  margin-bottom:10%;
+  background-color: grey !important;
 }
