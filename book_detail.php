@@ -55,7 +55,7 @@ $type='detail';
           <div class="card-body">
             <h1 class="card-title"><?php echo($book['Book_Name']);?></h1>
             <h3 class="card-text"><?php echo($book['Author_Name']);?></h3><br>
-            <p class="card-text"><?php echo($book['Book_Description']);?></p>
+            <p class="card-text"><?php echo nl2br($book['Book_Description']);?></p>
           </div>
         </div>
     </div>
