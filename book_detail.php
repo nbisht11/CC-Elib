@@ -7,7 +7,6 @@ $book=$result->fetch_assoc();
 $type='detail';
 ?>
 <!DOCTYPE html>
-<html>
   <head>
     <title>Book Details</title>
   </head>
